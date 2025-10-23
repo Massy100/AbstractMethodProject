@@ -1,8 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { HTMLFactory } from './factories/concrete/HTMLFactory';
-import { MDFactory } from './factories/concrete/MDFactory';
-import { ConverterService } from './services/ConverterService';
-import type { ConvertFactory } from './factories/abstract/ConvertFactory';
+import { HTMLFactory } from '../factories/concrete/HTMLFactory';
+import { MDFactory } from '../factories/concrete/MDFactory';
+import { ConverterService } from '../services/ConverterService';
+import type { ConvertFactory } from '../factories/abstract/ConvertFactory';
 
 export async function POST(request: NextRequest) {
   try {
@@ -27,7 +27,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ converted: result });
   } catch (error) {
     return NextResponse.json(
-      { error: 'Conversion error' },
+      { error: 'Conversion error', details: (error as Error).message },
       { status: 500 }
     );
   }

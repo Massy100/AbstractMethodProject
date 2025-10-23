@@ -29,6 +29,8 @@ export default function Home() {
   console.log('=== MARKDOWN RESULT ===');
   console.log(mdResult);
 
+  console.log(sampleData)
+
   return (
     <div style={{ display: 'none' }}>
       <h1>JSON Converter</h1>
