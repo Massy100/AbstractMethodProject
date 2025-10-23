@@ -6,7 +6,8 @@ import type { ConvertFactory } from '../factories/abstract/ConvertFactory';
 
 export async function POST(request: NextRequest) {
   try {
-    const { content, format } = await request.json();
+    const body = await request.json();
+    const { content, format } = body;
 
     let factory: ConvertFactory;
     
@@ -22,9 +23,11 @@ export async function POST(request: NextRequest) {
     }
 
     const converter = new ConverterService(factory);
-    const result = converter.convert(content);
+    const result = converter.convert(body).trim();
 
-    return NextResponse.json({ converted: result });
+    return new Response(result, {
+      headers: { 'Content-Type': 'text/plain; charset=utf-8' },
+    });
   } catch (error) {
     return NextResponse.json(
       { error: 'Conversion error', details: (error as Error).message },
