@@ -10,10 +10,13 @@ export async function POST(request: NextRequest) {
     const { content, format } = body;
 
     let factory: ConvertFactory;
+    let contentType: string;
     
     if (format === 'html') {
       factory = new HTMLFactory();
+      contentType = 'text/html; charset=utf-8';
     } else if (format === 'markdown') {
+      contentType = 'text/plain; charset=utf-8';
       factory = new MDFactory();
     } else {
       return NextResponse.json(
@@ -26,7 +29,7 @@ export async function POST(request: NextRequest) {
     const result = converter.convert(body).trim();
 
     return new Response(result, {
-      headers: { 'Content-Type': 'text/plain; charset=utf-8' },
+      headers: { 'Content-Type': contentType },
     });
   } catch (error) {
     return NextResponse.json(
